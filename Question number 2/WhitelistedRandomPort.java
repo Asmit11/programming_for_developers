@@ -1,31 +1,32 @@
 package Question2;
+
 import java.util.*;
 
 public class WhitelistedRandomPort {
-    private Set<Integer> whitelist;
-    private Random random;
+    private Set<Integer> allowedPorts;
+    private Random randomGenerator;
 
-    public WhitelistedRandomPort(int k, int[] blacklistedPorts) {
-        whitelist = new HashSet<>();
-        random = new Random();
+    public WhitelistedRandomPort(int totalPorts, int[] blockedPorts) {
+        allowedPorts = new HashSet<>();
+        randomGenerator = new Random();
 
-        // Add all ports from 0 to k-1 to the whitelist
-        for (int i = 0; i < k; i++) {
-            whitelist.add(i);
+        // Add all ports from 0 to totalPorts-1 to the allowedPorts set
+        for (int i = 0; i < totalPorts; i++) {
+            allowedPorts.add(i);
         }
 
-        // Remove blacklisted ports from the whitelist
-        for (int port : blacklistedPorts) {
-            whitelist.remove(port);
+        // Remove blocked ports from the allowedPorts set
+        for (int blockedPort : blockedPorts) {
+            allowedPorts.remove(blockedPort);
         }
     }
 
-    public int get() {
-        // Get a random index within the size of the whitelist
-        int index = random.nextInt(whitelist.size());
+    public int getRandomPort() {
+        // Generate a random index within the size of the allowedPorts set
+        int index = randomGenerator.nextInt(allowedPorts.size());
 
-        // Iterate through the whitelist and return the element at the randomly generated index
-        Iterator<Integer> iterator = whitelist.iterator();
+        // Iterate through the allowedPorts set to find the element at the generated index
+        Iterator<Integer> iterator = allowedPorts.iterator();
         for (int i = 0; i < index; i++) {
             iterator.next();
         }
@@ -35,14 +36,14 @@ public class WhitelistedRandomPort {
 
     public static void main(String[] args) {
         // Example input
-        int k = 7;
-        int[] blacklistedPorts = {2, 3, 5};
+        int totalPorts = 7;
+        int[] blockedPorts = {2, 3, 5};
 
         // Create an instance of WhitelistedRandomPort
-        WhitelistedRandomPort p = new WhitelistedRandomPort(k, blacklistedPorts);
+        WhitelistedRandomPort portSelector = new WhitelistedRandomPort(totalPorts, blockedPorts);
 
-        // Call the get() function to get whitelisted random ports
-        System.out.println(p.get()); // Returns 0
-        System.out.println(p.get()); // Returns 4
+        // Call the getRandomPort() function to get random allowed ports
+        System.out.println(portSelector.getRandomPort()); // Returns a random allowed port
+        System.out.println(portSelector.getRandomPort()); // Returns another random allowed port
     }
 }
